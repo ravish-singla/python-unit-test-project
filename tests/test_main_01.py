@@ -34,47 +34,47 @@ class TestBankAccountInit(unittest.TestCase):
         self.account = BankAccount("Test User", 1000.0)
 
     # valid account creation
-    def test_valid_account_creation(self):
+    def test_01_valid_account_creation(self):
         """Test valid account creation with correct inputs."""
         account = BankAccount("John Doe", 100.0)
         self.assertEqual(account.account_holder, "John Doe")
         self.assertEqual(account.balance, 100.0)
 
     # test account holder
-    def test_account_holder(self):
+    def test_02_account_holder(self):
         self.assertIsNotNone(self.account.account_holder)
         self.assertEqual(self.account.account_holder, "Test User")
 
     # Check account holder with Number passed
-    def test_account_holder_numeric_string(self):
+    def test_03_account_holder_numeric_string(self):
         """Test that a non-string account holder raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             BankAccount(123, 100.0)
         self.assertEqual(str(context.exception), "Account holder name must be a non-empty string")
 
     # Check account holder with None passed
-    def test_account_holder_none(self):
+    def test_04_account_holder_none(self):
         """Test that a non-string account holder raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             BankAccount(None, 100.0)
         self.assertEqual(str(context.exception), "Account holder name must be a non-empty string")
 
     # Check account holder with a True passed
-    def test_account_holder_true(self):
+    def test_05_account_holder_true(self):
         """Test that a non-string account holder raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             BankAccount(True, 100.0)
         self.assertEqual(str(context.exception), "Account holder name must be a non-empty string")
 
     # Check account holder with Empty Spaces passed in String
-    def test_account_holder_empty(self):
+    def test_06_account_holder_empty(self):
         """Test that an empty account holder name raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             BankAccount("   ", 100.0)
         self.assertEqual(str(context.exception), "Account holder name cannot be empty")
 
     # Check account holder with trailing/leading spaces
-    def test_account_holder_with_spaces(self):
+    def test_07_account_holder_with_spaces(self):
         """Test that account holder names with extra spaces are trimmed."""
         account = BankAccount("  Alice  ", 50.0)
         # self.assertEqual(account.account_holder, "Alice")
@@ -82,20 +82,20 @@ class TestBankAccountInit(unittest.TestCase):
 
 
     # Check valid balance passed
-    def test_valid_balance(self):
+    def test_08_valid_balance(self):
         """Test valid balance assignment."""
         account = BankAccount("Bob Dylan", 200.5)
         self.assertEqual(account.balance, 200.5)
 
     # Check non-numeric balance passed
-    def test_balance_non_numeric(self):
+    def test_09_balance_non_numeric(self):
         """Test that a non-numeric balance raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             BankAccount("Diana Hayden", "one hundred")
         self.assertEqual(str(context.exception), "Balance must be numeric")
 
     # Check None balance passed
-    def test_balance_none(self):
+    def test_10_balance_none(self):
         """Test that a None balance raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             BankAccount("Diana Hayden", None)
@@ -103,21 +103,21 @@ class TestBankAccountInit(unittest.TestCase):
 
 
     # Check True balance passed
-    def test_balance_true(self):
+    def test_11_balance_true(self):
         """Test that a True balance raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             BankAccount("Diana Hayden", True)
         self.assertEqual(str(context.exception), "Balance must be numeric")
 
     # Check False balance passed
-    def test_balance_false(self):
+    def test_12_balance_false(self):
         """Test that a False balance raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             BankAccount("Diana Hayden", False)
         self.assertEqual(str(context.exception), "Balance must be numeric")
 
     # Check negative balance passed
-    def test_balance_negative(self):
+    def test_13_balance_negative(self):
         """Test that a negative balance raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             BankAccount("Charlie Chaplin", -50.0)
@@ -128,7 +128,7 @@ class TestBankAccountInit(unittest.TestCase):
         self.account = None # or assigning the account to None object
 
 
-### 2️ Testing Deposit Functionality ###
+### 2 Testing Deposit Functionality ###
 class TestBankAccountDeposit(unittest.TestCase):
 
     def setUp(self):
@@ -137,12 +137,12 @@ class TestBankAccountDeposit(unittest.TestCase):
         self.account = BankAccount("Test User", 100.0)
 
     # test initial deposit
-    def test_deposit_initial(self):
+    def test_25_deposit_initial(self):
         self.assertEqual(self.account.balance, 100.0)
         self.assertTrue(self.account.balance >= 0)
 
     # test deposit
-    def test_deposit_valid_amount(self):
+    def test_26_deposit_valid_amount(self):
         """Test depositing a valid amount."""
         old_balance = self.account.balance
         self.account.deposit(50)
@@ -150,42 +150,42 @@ class TestBankAccountDeposit(unittest.TestCase):
         self.assertGreater(self.account.balance,old_balance)
 
     # zero deposit
-    def test_deposit_zero(self):
+    def test_27_deposit_zero(self):
         """Test that depositing zero raises an error."""
         with self.assertRaises(ZeroAmountError) as context:
             self.account.deposit(0)
         self.assertEqual(str(context.exception),"Deposit amount must be greater than Zero")
 
     # negative deposit
-    def test_deposit_negative_amount(self):
+    def test_28_deposit_negative_amount(self):
         """Test that depositing a negative amount raises an error."""
         with self.assertRaises(NegativeAmountError) as context:
             self.account.deposit(-10)
         self.assertEqual(str(context.exception),"Deposit amount must be positive")
 
     # Check non-numeric deposit
-    def test_deposit_non_numeric(self):
+    def test_29_deposit_non_numeric(self):
         """Test that a non-numeric deposit raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             self.account.deposit("one hundred")
         self.assertEqual(str(context.exception), "Deposit amount must be numeric")
 
     # Check None deposit
-    def test_deposit_none(self):
+    def test_30_deposit_none(self):
         """Test that a None deposit raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             self.account.deposit(None)
         self.assertEqual(str(context.exception), "Deposit amount must be numeric")
 
     # Check True deposit
-    def test_deposit_true(self):
+    def test_31_deposit_true(self):
         """Test that a True deposit raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             self.account.deposit(True)
         self.assertEqual(str(context.exception), "Deposit amount must be numeric")
 
     # Check False deposit
-    def test_deposit_false(self):
+    def test_32_deposit_false(self):
         """Test that a False deposit raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             self.account.deposit(False)
@@ -196,7 +196,7 @@ class TestBankAccountDeposit(unittest.TestCase):
         self.account = None # or assigning the account to None object
 
 
-### 3️ Testing Withdraw Functionality ###
+### 3 Testing Withdraw Functionality ###
 class TestBankAccountWithdraw(unittest.TestCase):
 
     def setUp(self):
@@ -205,12 +205,12 @@ class TestBankAccountWithdraw(unittest.TestCase):
         self.account = BankAccount("Test User", 100.0)
 
     # test initial balance before withdraw
-    def test_withdraw_initial(self):
+    def test_16_withdraw_initial(self):
         self.assertEqual(self.account.balance, 100.0)
         self.assertTrue(self.account.balance >= 0)
 
     # valid withdraw
-    def test_withdraw_valid_amount(self):
+    def test_17_withdraw_valid_amount(self):
         """Test withdrawing a valid amount."""
         old_balance = self.account.balance
         self.account.withdraw(40)
@@ -219,49 +219,49 @@ class TestBankAccountWithdraw(unittest.TestCase):
 
 
     # insufficient funds
-    def test_withdraw_insufficient_funds(self):
+    def test_18_withdraw_insufficient_funds(self):
         """Test withdrawing more than the balance raises an error."""
         with self.assertRaises(InsufficientFundsError) as context:
             self.account.withdraw(200)
         self.assertEqual(str(context.exception),"Insufficient funds")
 
     # zero withdraw
-    def test_withdraw_zero(self):
+    def test_19_withdraw_zero(self):
         """Test that withdrawing zero raises an error."""
         with self.assertRaises(ZeroAmountError) as context:
             self.account.withdraw(0)
         self.assertEqual(str(context.exception),"Withdrawal amount must be greater than Zero")
 
     # negative withdraw
-    def test_withdraw_negative_amount(self):
+    def test_20_withdraw_negative_amount(self):
         """Test that withdrawing a negative amount raises an error."""
         with self.assertRaises(NegativeAmountError) as context:
             self.account.withdraw(-10)
         self.assertEqual(str(context.exception),"Withdrawal amount must be positive")
 
     # Check non-numeric withdraw
-    def test_withdraw_non_numeric(self):
+    def test_21_withdraw_non_numeric(self):
         """Test that a non-numeric withdraw raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             self.account.withdraw("one hundred")
         self.assertEqual(str(context.exception), "Withdrawal amount must be numeric")
 
     # Check None withdraw
-    def test_withdraw_none(self):
+    def test_22_withdraw_none(self):
         """Test that a None withdraw raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             self.account.withdraw(None)
         self.assertEqual(str(context.exception), "Withdrawal amount must be numeric")
 
     # Check True withdraw
-    def test_withdraw_true(self):
+    def test_23_withdraw_true(self):
         """Test that a True withdraw raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             self.account.withdraw(True)
         self.assertEqual(str(context.exception), "Withdrawal amount must be numeric")
 
     # Check False withdraw
-    def test_withdraw_false(self):
+    def test_24_withdraw_false(self):
         """Test that a False withdraw raises an error."""
         with self.assertRaises(InvalidInputError) as context:
             self.account.withdraw(False)
@@ -281,7 +281,7 @@ class TestBankAccountBalanceProp(unittest.TestCase):
         self.account = BankAccount("Test User", 1000.0)
 
     # test valid balance property
-    def test_balance_property(self):
+    def test_15_balance_property(self):
         self.assertEqual(self.account.balance, 1000.0)
         self.assertTrue(self.account.balance > 0)
         self.assertIsInstance(self.account.balance,float)
@@ -300,7 +300,7 @@ class TestBankAccountStr(unittest.TestCase):
         self.account = BankAccount("Test User", 500.0)
 
     # test proper return from str function/method
-    def test_str(self):
+    def test_14_str(self):
         self.assertEqual(self.account.account_holder, "Test User")
         self.assertEqual(self.account.balance, 500.0)
         self.assertEqual(str(self.account),"Account holder: Test User, Balance: 500.0")
@@ -319,6 +319,7 @@ or the result of other tests).
 
 
 """
+
 def suite():
     suite = unittest.TestSuite()
 
@@ -328,6 +329,7 @@ def suite():
     suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestBankAccountBalanceProp)) # 3rd
     suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestBankAccountWithdraw))    # 4th (Runs before deposit)
     suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestBankAccountDeposit))     # 5th
+
 
     return suite
 
